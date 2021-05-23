@@ -11,10 +11,7 @@ function App() {
     const scrollHeight = document.documentElement.scrollHeight;
     const scrollTop = document.documentElement.scrollTop;
     const clientHeight = document.documentElement.clientHeight;
-    
-    if(items.length == entireItems.length){
-      return
-    }
+  
     if(scrollTop + clientHeight >= scrollHeight * 1){ 
       setItems((prevItems)=>{
         const lastItemIdx = prevItems.length-1
@@ -29,7 +26,13 @@ function App() {
   const [entireItems,setEntireItems] = useState([]);
 
   useEffect(()=>{ 
-    window.addEventListener('scroll',infiniteHandler);
+    if(items.length >= entireItems.length){
+      window.removeEventListener('scroll',infiniteHandler);
+      
+    }
+    else {
+      window.addEventListener('scroll',infiniteHandler);
+    }
     
     return ()=>{ // cleanUp function 
       window.removeEventListener('scroll',infiniteHandler);
